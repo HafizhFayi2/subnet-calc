@@ -1,0 +1,2176 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="NetCal – Kalkulator subnetting, VLSM, dan fiber optic profesional untuk TKJ dan Network Engineer."
+    />
+
+    <meta name="application-name" content="NetCal" />
+    <title>NetCal</title>
+
+    <!-- Browser tab -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png"
+    />
+
+    <!-- Android homescreen -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="favicon/android-chrome-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="favicon/android-chrome-512x512.png"
+    />
+
+    <!-- iOS homescreen -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="favicon/apple-touch-icon.png"
+    />
+
+    <!-- Manifest -->
+    <link rel="manifest" href="site.webmanifest" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --secondary: #3b82f6;
+        --light: #f8fafc;
+        --dark: #0f172a;
+        --gray: #64748b;
+        --light-gray: #e2e8f0;
+        --border-radius: 8px;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        color: var(--dark);
+        background-color: #f1f5f9;
+        line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        background-color: white;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--primary);
+      }
+
+      .logo i {
+        font-size: 1.8rem;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 500;
+        transition: var(--transition);
+      }
+
+      .nav-links a:hover {
+        color: var(--primary);
+      }
+
+      .logo-img {
+        height: 50px; /* sesuaikan tinggi logo */
+        width: auto; /* biar proporsional */
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 2px; /* spasi ke teks */
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+        padding: 80px 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 40px;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='1' fill='%233b82f6' opacity='0.1'/%3E%3C/svg%3E");
+        z-index: 0;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .hero h1 {
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+        color: var(--dark);
+        line-height: 1.2;
+      }
+
+      .hero p {
+        font-size: 1.25rem;
+        color: var(--gray);
+        margin-bottom: 40px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .cta-button {
+        display: inline-block;
+        background-color: var(--primary);
+        color: white;
+        padding: 16px 40px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: var(--border-radius);
+        text-decoration: none;
+        transition: var(--transition);
+        box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+      }
+
+      .cta-button:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 10px rgba(37, 99, 235, 0.4);
+      }
+
+      /* Calculator Tabs */
+      .calculator-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        overflow-x: auto;
+        padding-bottom: 5px;
+      }
+
+      .tab-btn {
+        padding: 12px 24px;
+        background-color: var(--light);
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius);
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        white-space: nowrap;
+      }
+
+      .tab-btn.active {
+        background-color: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .tab-btn:hover:not(.active) {
+        background-color: #e0f2fe;
+      }
+
+      .calculator-container {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        margin-bottom: 40px;
+      }
+
+      .calculator-header {
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        color: white;
+        padding: 20px 30px;
+      }
+
+      .calculator-header h2 {
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .calculator-header h2 i {
+        font-size: 1.5rem;
+      }
+
+      .calculator-body {
+        padding: 30px;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--dark);
+      }
+
+      .ip-input-container {
+        display: flex;
+        gap: 10px;
+      }
+
+      .ip-input {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius);
+        font-family: "Roboto Mono", monospace;
+        text-align: center;
+        font-size: 1.1rem;
+        transition: var(--transition);
+      }
+
+      .ip-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+      }
+
+      .cidr-select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius);
+        background-color: white;
+        font-family: "Roboto Mono", monospace;
+        font-size: 1.1rem;
+        transition: var(--transition);
+      }
+
+      .cidr-select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+      }
+
+      .calculate-btn {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 14px 25px;
+        border-radius: var(--border-radius);
+        font-weight: 600;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: var(--transition);
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .calculate-btn:hover {
+        background-color: var(--primary-dark);
+      }
+
+      .results-container {
+        background-color: var(--light);
+        border-radius: var(--border-radius);
+        padding: 25px;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 20px;
+      }
+
+      .result-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--light-gray);
+      }
+
+      .result-row:last-child {
+        border-bottom: none;
+      }
+
+      .result-label {
+        color: var(--gray);
+        font-weight: 500;
+      }
+
+      .result-value {
+        color: var(--dark);
+        font-weight: 600;
+        text-align: right;
+      }
+
+      /* Subnet Table */
+      .subnet-table-container {
+        overflow-x: auto;
+        margin-top: 20px;
+      }
+
+      .subnet-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+        min-width: 600px;
+      }
+
+      .subnet-table th {
+        background-color: var(--primary);
+        color: white;
+        padding: 12px;
+        text-align: left;
+      }
+
+      .subnet-table tr:nth-child(even) {
+        background-color: #f1f5f9;
+      }
+
+      .subnet-table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--light-gray);
+      }
+
+      .subnet-table .highlight {
+        background-color: #ffecb3;
+        font-weight: bold;
+      }
+
+      /* Fiber Tabs */
+      .fiber-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .fiber-tab-btn {
+        padding: 10px 20px;
+        background-color: var(--light);
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius);
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .fiber-tab-btn.active {
+        background-color: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .fiber-type-select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius);
+        background-color: white;
+        font-size: 1rem;
+        margin-bottom: 20px;
+      }
+
+      /* Fiber Color Table */
+      .fiber-table-container {
+        overflow-x: auto;
+        margin-top: 20px;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .fiber-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+        min-width: 600px;
+      }
+
+      .fiber-table th {
+        background-color: var(--primary);
+        color: white;
+        padding: 12px;
+        text-align: center;
+        position: sticky;
+        top: 0;
+      }
+
+      .fiber-table td {
+        padding: 10px 12px;
+        border: 1px solid var(--light-gray);
+        text-align: center;
+        font-weight: 500;
+      }
+
+      .fiber-table tr:nth-child(even) {
+        background-color: #f8fafc;
+      }
+
+      .highlight {
+        background-color: #ffecb3 !important;
+        font-weight: bold;
+        box-shadow: 0 0 0 2px #ffc107;
+      }
+
+      /* Color Definitions */
+      .blue {
+        background-color: #0000ff;
+        color: white;
+      }
+      .orange {
+        background-color: #ffa500;
+      }
+      .green {
+        background-color: #008000;
+        color: white;
+      }
+      .brown {
+        background-color: #8b4513;
+        color: white;
+      }
+      .gray {
+        background-color: #808080;
+        color: white;
+      }
+      .white {
+        background-color: #ffffff;
+        color: #000000;
+      }
+      .red {
+        background-color: #ff0000;
+        color: white;
+      }
+      .black {
+        background-color: #000000;
+        color: white;
+      }
+      .yellow {
+        background-color: #ffff00;
+      }
+      .purple {
+        background-color: #800080;
+        color: white;
+      }
+      .pink {
+        background-color: #ffc0cb;
+      }
+      .aqua {
+        background-color: #00ffff;
+      }
+
+      /* VLSM Styles */
+      .vlsm-subnet {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+        align-items: center;
+      }
+
+      .vlsm-host-input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius);
+      }
+
+      .remove-subnet-btn {
+        background: #f8fafc;
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius);
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      /* Explanation Section */
+      .explanation-section {
+        background-color: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 40px;
+      }
+
+      .explanation-content {
+        display: none;
+      }
+
+      .explanation-content.active {
+        display: block;
+      }
+
+      .explanation-content h3 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        color: var(--primary);
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--light-gray);
+      }
+
+      .explanation-content h4 {
+        font-size: 1.2rem;
+        margin: 20px 0 10px;
+        color: var(--dark);
+      }
+
+      .explanation-content p {
+        margin-bottom: 15px;
+        color: var(--gray);
+        line-height: 1.7;
+      }
+
+      .explanation-content ul {
+        margin-left: 20px;
+        margin-bottom: 20px;
+      }
+
+      .explanation-content li {
+        margin-bottom: 10px;
+        color: var(--gray);
+      }
+
+      .formula-box {
+        background-color: var(--light);
+        border-left: 4px solid var(--primary);
+        padding: 15px;
+        margin: 20px 0;
+        font-family: "Roboto Mono", monospace;
+        border-radius: 0 var(--border-radius) var(--border-radius) 0;
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.2rem;
+        }
+
+        .hero p {
+          font-size: 1.1rem;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .calculator-body {
+          padding: 20px;
+        }
+
+        .ip-input-container {
+          flex-wrap: wrap;
+        }
+
+        .ip-input {
+          flex: 0 0 calc(25% - 8px);
+        }
+      }
+
+      /* Footer Styles */
+      footer {
+        background-color: var(--dark);
+        color: white;
+        padding: 60px 0 30px;
+        margin-top: auto;
+      }
+
+      .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .footer-about {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .footer-about h3 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        color: white;
+      }
+
+      .footer-about p {
+        color: #94a3b8;
+        margin-bottom: 20px;
+      }
+
+      .footer-links {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .footer-links h3 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        color: white;
+      }
+
+      .footer-links ul {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 10px;
+      }
+
+      .footer-links a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--primary);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid #334155;
+        color: #94a3b8;
+        font-size: 0.9rem;
+      }
+
+      /* Donate Section */
+      .donate-section {
+        background: #f5f2f2;
+        border-radius: var(--border-radius);
+        padding: 20px;
+        margin-top: 20px;
+      }
+
+      .donate-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+        color: #e1b737;
+      }
+
+      .btc-address {
+        background: #000000;
+        padding: 15px;
+        border-radius: var(--border-radius);
+        font-family: "Roboto Mono", monospace;
+        word-break: break-all;
+        margin-bottom: 15px;
+        position: relative;
+      }
+
+      .copy-btn {
+        background: #ffc720;
+        color: #1a1a1a;
+        border: none;
+        padding: 10px 20px;
+        border-radius: var(--border-radius);
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        width: 100%;
+      }
+
+      .copy-btn:hover {
+        background: #e0b82d;
+      }
+
+      .copy-notification {
+        position: absolute;
+        top: -30px;
+        right: 10px;
+        background: #4caf50;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .copy-notification.show {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="container">
+        <nav class="navbar">
+          <div class="logo">
+            <img
+              src="favicon/android-chrome-512x512.png"
+              alt="NetCal Logo"
+              class="logo-img"
+            />
+            <span>NetCal</span>
+          </div>
+          <div class="nav-links">
+            <a href="#subnet">Subnet</a>
+            <a href="#vlsm">VLSM</a>
+            <a href="#fiber">Fiber</a>
+            <a href="#features">Fitur</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>Kalkulator Jaringan Lengkap untuk TKJ & Network Engineer</h1>
+          <p>
+            Hitung subnet, VLSM, dan fiber optik dengan alat profesional 100%
+            gratis
+          </p>
+          <a href="#calculators" class="cta-button">Mulai Sekarang</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calculators Section -->
+    <section class="container" id="calculators">
+      <div class="calculator-tabs">
+        <div class="tab-btn active" data-tab="subnet">Kalkulator CIDR</div>
+        <div class="tab-btn" data-tab="vlsm">Kalkulator VLSM</div>
+        <div class="tab-btn" data-tab="fiber">Kalkulator Fiber Optik</div>
+      </div>
+
+      <!-- CIDR Calculator -->
+      <div class="calculator-container" id="subnet-calculator">
+        <div class="calculator-header">
+          <h2><i class="fas fa-calculator"></i> Kalkulator CIDR</h2>
+        </div>
+
+        <div class="calculator-body">
+          <div class="input-group">
+            <label for="ip-address">Alamat IP</label>
+            <div class="ip-input-container">
+              <input
+                type="number"
+                class="ip-input"
+                id="ip-octet1"
+                min="0"
+                max="255"
+                value="192"
+              />
+              <span class="ip-dot">.</span>
+              <input
+                type="number"
+                class="ip-input"
+                id="ip-octet2"
+                min="0"
+                max="255"
+                value="168"
+              />
+              <span class="ip-dot">.</span>
+              <input
+                type="number"
+                class="ip-input"
+                id="ip-octet3"
+                min="0"
+                max="255"
+                value="1"
+              />
+              <span class="ip-dot">.</span>
+              <input
+                type="number"
+                class="ip-input"
+                id="ip-octet4"
+                min="0"
+                max="255"
+                value="0"
+              />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="cidr">Subnet Mask (CIDR)</label>
+            <select id="cidr" class="cidr-select">
+              <!-- CIDR options will be generated by JS -->
+            </select>
+          </div>
+
+          <button id="calculate-subnet-btn" class="calculate-btn">
+            <i class="fas fa-calculator"></i> Hitung Subnet
+          </button>
+
+          <div class="results-container" id="subnet-results">
+            <div class="result-row">
+              <span class="result-label">Alamat Jaringan:</span>
+              <span class="result-value" id="network-address">192.168.1.0</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Alamat Broadcast:</span>
+              <span class="result-value" id="broadcast-address"
+                >192.168.1.255</span
+              >
+            </div>
+            <div class="result-row">
+              <span class="result-label">Subnet Mask:</span>
+              <span class="result-value" id="subnet-mask">255.255.255.0</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Wildcard Mask:</span>
+              <span class="result-value" id="wildcard-mask">0.0.0.255</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Jumlah Host:</span>
+              <span class="result-value" id="num-hosts">254</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">IP Pertama:</span>
+              <span class="result-value" id="first-ip">192.168.1.1</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">IP Terakhir:</span>
+              <span class="result-value" id="last-ip">192.168.1.254</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">CIDR Notation:</span>
+              <span class="result-value" id="cidr-notation">/24</span>
+            </div>
+          </div>
+
+          <h3 style="margin-top: 25px; margin-bottom: 15px">Tabel Subnet</h3>
+          <div class="subnet-table-container">
+            <table class="subnet-table" id="subnet-table">
+              <thead>
+                <tr>
+                  <th>Subnet</th>
+                  <th>Rentang IP</th>
+                  <th>Host</th>
+                  <th>Broadcast</th>
+                </tr>
+              </thead>
+              <tbody id="subnet-table-body">
+                <!-- Results will be inserted here by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- VLSM Calculator -->
+      <div
+        class="calculator-container"
+        id="vlsm-calculator"
+        style="display: none"
+      >
+        <div class="calculator-header">
+          <h2><i class="fas fa-sitemap"></i> Kalkulator VLSM</h2>
+        </div>
+
+        <div class="calculator-body">
+          <div class="input-group">
+            <label for="vlsm-ip">Alamat Jaringan</label>
+            <div class="ip-input-container">
+              <input
+                type="number"
+                class="ip-input"
+                id="vlsm-ip1"
+                min="0"
+                max="255"
+                value="192"
+              />
+              <span class="ip-dot">.</span>
+              <input
+                type="number"
+                class="ip-input"
+                id="vlsm-ip2"
+                min="0"
+                max="255"
+                value="168"
+              />
+              <span class="ip-dot">.</span>
+              <input
+                type="number"
+                class="ip-input"
+                id="vlsm-ip3"
+                min="0"
+                max="255"
+                value="1"
+              />
+              <span class="ip-dot">.</span>
+              <input
+                type="number"
+                class="ip-input"
+                id="vlsm-ip4"
+                min="0"
+                max="255"
+                value="0"
+              />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="vlsm-cidr">Subnet Mask Awal (CIDR)</label>
+            <select id="vlsm-cidr" class="cidr-select">
+              <!-- CIDR options will be generated by JS -->
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Daftar Subnet (Jumlah host yang dibutuhkan)</label>
+            <div id="vlsm-subnets-container">
+              <div class="vlsm-subnet">
+                <input
+                  type="number"
+                  class="vlsm-host-input"
+                  placeholder="Jumlah host"
+                  min="1"
+                  value="60"
+                />
+                <button class="remove-subnet-btn">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div class="vlsm-subnet">
+                <input
+                  type="number"
+                  class="vlsm-host-input"
+                  placeholder="Jumlah host"
+                  min="1"
+                  value="30"
+                />
+                <button class="remove-subnet-btn">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div class="vlsm-subnet">
+                <input
+                  type="number"
+                  class="vlsm-host-input"
+                  placeholder="Jumlah host"
+                  min="1"
+                  value="10"
+                />
+                <button class="remove-subnet-btn">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <button
+              id="add-subnet-btn"
+              class="calculate-btn"
+              style="background-color: #10b981; margin-top: 10px"
+            >
+              <i class="fas fa-plus"></i> Tambah Subnet
+            </button>
+          </div>
+
+          <button id="calculate-vlsm-btn" class="calculate-btn">
+            <i class="fas fa-calculator"></i> Hitung VLSM
+          </button>
+
+          <div id="vlsm-results" style="margin-top: 30px; display: none">
+            <h3>Hasil Perhitungan VLSM</h3>
+            <div class="subnet-table-container">
+              <table class="subnet-table">
+                <thead>
+                  <tr>
+                    <th>Subnet</th>
+                    <th>Host Dibutuhkan</th>
+                    <th>Alamat Jaringan</th>
+                    <th>Subnet Mask</th>
+                    <th>Rentang IP</th>
+                    <th>Broadcast</th>
+                  </tr>
+                </thead>
+                <tbody id="vlsm-table-body">
+                  <!-- Results will be inserted here by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fiber Calculator -->
+      <div
+        class="calculator-container"
+        id="fiber-calculator"
+        style="display: none"
+      >
+        <div class="calculator-header">
+          <h2>
+            <i class="fas fa-fiber-manual-record"></i> Kalkulator Fiber Optik
+          </h2>
+        </div>
+
+        <div class="calculator-body">
+          <div class="fiber-tabs">
+            <div class="fiber-tab-btn active" data-fiber-tab="core-to-color">
+              Core ke Warna
+            </div>
+            <div class="fiber-tab-btn" data-fiber-tab="color-to-core">
+              Warna ke Core
+            </div>
+          </div>
+
+          <div class="fiber-tab-content" id="core-to-color-tab">
+            <div class="input-group">
+              <label for="fiber-type">Pilih Jenis Fiber Optik</label>
+              <select id="fiber-type" class="fiber-type-select">
+                <option value="12/1">12 core (1 tube)</option>
+                <option value="24/4">24 Core (4 Tubes)</option>
+                <option value="48/8">48 Core (8 Tubes)</option>
+                <option value="72/6">72 Core (6 Tubes)</option>
+                <option value="96/8">96 Core (8 Tubes)</option>
+                <option value="144/12">144 Core (12 Tubes)</option>
+                <option value="288/24">288 Core (24 Tubes)</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="core-number">Nomor Core</label>
+              <input
+                type="number"
+                id="core-number"
+                class="fiber-type-select"
+                min="1"
+                max="288"
+                placeholder="Masukkan nomor core"
+                value="1"
+              />
+            </div>
+
+            <button id="calculate-core-btn" class="calculate-btn">
+              <i class="fas fa-search"></i> Cari Warna
+            </button>
+
+            <div
+              class="results-container"
+              id="core-results"
+              style="margin-top: 20px; display: none"
+            >
+              <div class="result-row">
+                <span class="result-label">Nomor Core:</span>
+                <span class="result-value" id="result-core">1</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Warna Core:</span>
+                <span class="result-value" id="result-color">Biru</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Nomor Tube:</span>
+                <span class="result-value" id="result-tube">1</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Warna Tube:</span>
+                <span class="result-value" id="result-tube-color">Biru</span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="fiber-tab-content"
+            id="color-to-core-tab"
+            style="display: none"
+          >
+            <div class="input-group">
+              <label for="fiber-type2">Pilih Jenis Fiber Optik</label>
+              <select id="fiber-type2" class="fiber-type-select">
+                <option value="12/1">12 Core (1 Tube)</option>
+                <option value="24/4">24 Core (4 Tubes)</option>
+                <option value="48/8">48 Core (8 Tubes)</option>
+                <option value="72/6">72 Core (6 Tubes)</option>
+                <option value="96/8">96 Core (8 Tubes)</option>
+                <option value="144/12">144 Core (12 Tubes)</option>
+                <option value="288/24">288 Core (24 Tubes)</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="core-color-select">Pilih Warna Core</label>
+              <select id="core-color-select" class="fiber-type-select">
+                <!-- Options will be generated by JS -->
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="tube-color-select">Pilih Warna Tube</label>
+              <select id="tube-color-select" class="fiber-type-select">
+                <!-- Options will be generated by JS -->
+              </select>
+            </div>
+
+            <button id="calculate-color-btn" class="calculate-btn">
+              <i class="fas fa-search"></i> Cari Core
+            </button>
+
+            <div
+              class="results-container"
+              id="color-results"
+              style="margin-top: 20px; display: none"
+            >
+              <div class="result-row">
+                <span class="result-label">Warna Core:</span>
+                <span class="result-value" id="result-color-name">Biru</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Warna Tube:</span>
+                <span class="result-value" id="result-tube-color-name"
+                  >Biru</span
+                >
+              </div>
+              <div class="result-row">
+                <span class="result-label">Nomor Core:</span>
+                <span class="result-value" id="result-core-number">1</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Nomor Tube:</span>
+                <span class="result-value" id="result-tube-number">1</span>
+              </div>
+            </div>
+          </div>
+
+          <h3 style="margin-top: 30px">Tabel Kode Warna Fiber Optik</h3>
+          <div class="fiber-table-container">
+            <table class="fiber-table" id="fiber-table">
+              <thead>
+                <tr>
+                  <th>No. Core</th>
+                  <th>Warna Core</th>
+                  <th>No. Tube</th>
+                  <th>Warna Tube</th>
+                </tr>
+              </thead>
+              <tbody id="fiber-table-body">
+                <!-- Results will be inserted here by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Explanation Section -->
+      <div class="explanation-section">
+        <div class="explanation-content active" id="cidr-explanation">
+          <h3>Pengertian CIDR (Classless Inter-Domain Routing)</h3>
+          <p>
+            CIDR adalah metode pengalokasian alamat IP dan routing yang lebih
+            fleksibel dibandingkan sistem klasik (Class A, B, C). CIDR
+            memungkinkan pembagian ruang alamat IP yang lebih efisien dengan
+            menggunakan notasi prefix (misal: /24) untuk menentukan jumlah bit
+            yang digunakan sebagai network identifier.
+          </p>
+
+          <h4>Konsep Dasar CIDR</h4>
+          <ul>
+            <li>
+              <strong>Network Prefix</strong>: Bagian dari alamat IP yang
+              mengidentifikasi jaringan (misal: 192.168.1.0/24)
+            </li>
+            <li>
+              <strong>Subnet Mask</strong>: Angka 32-bit yang menandai bagian
+              network dan host (misal: 255.255.255.0)
+            </li>
+            <li>
+              <strong>Wildcard Mask</strong>: Kebalikan dari subnet mask (misal:
+              0.0.0.255)
+            </li>
+            <li>
+              <strong>Alamat Jaringan</strong>: Alamat pertama dalam subnet
+            </li>
+            <li>
+              <strong>Alamat Broadcast</strong>: Alamat terakhir dalam subnet
+              untuk komunikasi broadcast
+            </li>
+          </ul>
+
+          <h4>Rumus Penting CIDR</h4>
+          <div class="formula-box">
+            Jumlah Subnet = 2<sup>(n)</sup><br />
+            Jumlah Host per Subnet = 2<sup>(32-n)</sup> - 2<br />
+            n = jumlah bit network (prefix)
+          </div>
+
+          <h4>Fungsi Setiap Komponen</h4>
+          <ul>
+            <li>
+              <strong>Subnet Mask</strong>: Menentukan bagian mana dari alamat
+              IP yang merupakan network ID dan host ID
+            </li>
+            <li>
+              <strong>Wildcard Mask</strong>: Digunakan dalam Access Control
+              List (ACL) untuk menentukan range alamat
+            </li>
+            <li>
+              <strong>Alamat Jaringan</strong>: Digunakan sebagai identifikasi
+              jaringan dalam routing
+            </li>
+            <li>
+              <strong>Alamat Broadcast</strong>: Digunakan untuk mengirim paket
+              ke semua perangkat dalam subnet
+            </li>
+          </ul>
+        </div>
+
+        <div class="explanation-content" id="vlsm-explanation">
+          <h3>Pengertian VLSM (Variable Length Subnet Mask)</h3>
+          <p>
+            VLSM adalah teknik subnetting yang memungkinkan penggunaan subnet
+            mask yang berbeda-beda dalam satu jaringan, sehingga pengalokasian
+            alamat IP menjadi lebih efisien. Dengan VLSM, administrator jaringan
+            dapat membuat subnet dengan ukuran yang berbeda sesuai kebutuhan
+            setiap segmen jaringan.
+          </p>
+
+          <h4>Konsep Dasar VLSM</h4>
+          <ul>
+            <li>
+              <strong>Host Dibutuhkan</strong>: Jumlah perangkat yang perlu
+              dialokasikan IP dalam suatu subnet
+            </li>
+            <li>
+              <strong>Subnet Mask</strong>: Menentukan ukuran subnet berdasarkan
+              kebutuhan host
+            </li>
+            <li>
+              <strong>Rentang IP</strong>: Alamat IP yang dapat digunakan oleh
+              perangkat dalam subnet
+            </li>
+            <li>
+              <strong>Daftar Subnet</strong>: Kumpulan subnet dengan ukuran
+              berbeda dalam satu jaringan utama
+            </li>
+          </ul>
+
+          <h4>Proses VLSM</h4>
+          <ol>
+            <li>Identifikasi kebutuhan host di setiap subnet</li>
+            <li>Urutkan subnet dari kebutuhan host terbesar ke terkecil</li>
+            <li>
+              Tentukan subnet mask untuk setiap subnet berdasarkan kebutuhan
+            </li>
+            <li>
+              Alokasikan subnet secara berurutan dalam blok jaringan utama
+            </li>
+          </ol>
+
+          <h4>Fungsi Setiap Komponen</h4>
+          <ul>
+            <li>
+              <strong>Host Dibutuhkan</strong>: Menentukan ukuran minimal subnet
+              yang diperlukan
+            </li>
+            <li>
+              <strong>Subnet Mask</strong>: Menyesuaikan ukuran subnet dengan
+              kebutuhan host
+            </li>
+            <li>
+              <strong>Rentang IP</strong>: Menunjukkan alamat yang dapat
+              digunakan perangkat
+            </li>
+            <li>
+              <strong>Daftar Subnet</strong>: Memetakan seluruh subnet dalam
+              jaringan secara efisien
+            </li>
+          </ul>
+        </div>
+
+        <div class="explanation-content" id="fiber-explanation">
+          <h3>Pengertian Fiber Optik dan Sistem Identifikasi</h3>
+          <p>
+            Fiber optik adalah media transmisi jaringan yang menggunakan serat
+            kaca pada corenya dan plastik sebagai lapisannya untuk
+            mentransmisikan data dalam bentuk cahaya. Untuk memudahkan
+            identifikasi, setiap core dalam kabel fiber optik diberi warna
+            berdasarkan standar internasional.
+          </p>
+
+          <h4>Jenis-Jenis Kabel Fiber Optik</h4>
+          <ul>
+            <li>
+              <strong>Single Mode</strong>: Untuk jarak jauh (hingga 100 km),
+              diameter core kecil (9μm)
+            </li>
+            <li>
+              <strong>Multi Mode</strong>: Untuk jarak menengah (hingga 2 km),
+              diameter core lebih besar (50/62.5μm)
+            </li>
+            <li><strong>Simplex</strong>: Satu serat, satu arah transmisi</li>
+            <li><strong>Duplex</strong>: Dua serat, transmisi dua arah</li>
+          </ul>
+
+          <h4>Sistem Identifikasi Core</h4>
+          <p>
+            Kabel fiber optik menggunakan sistem warna untuk mengidentifikasi
+            core dan tube:
+          </p>
+          <ol>
+            <li>Setiap core memiliki warna unik sesuai urutan standar</li>
+            <li>Setiap tube (kelompok core) memiliki warna unik</li>
+            <li>Identifikasi dilakukan dengan kombinasi warna core dan tube</li>
+          </ol>
+
+          <h4>Urutan Warna Standar</h4>
+          <div class="formula-box">
+            1. Biru, 2. Oranye, 3. Hijau, 4. Coklat, 5. Abu-abu, 6. Putih<br />
+            7. Merah, 8. Hitam, 9. Kuning, 10. Ungu, 11. Pink, 12. Tosca (Aqua)
+          </div>
+
+          <h4>Kegunaan Identifikasi</h4>
+          <ul>
+            <li>Memudahkan penyambungan kabel di lapangan</li>
+            <li>Mencegah kesalahan dalam instalasi jaringan</li>
+            <li>Mempermudah pemeliharaan dan troubleshooting</li>
+            <li>Memastikan konsistensi dalam jaringan besar</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-about">
+            <h3>NetCal</h3>
+            <p>
+              Kalkulator Subneting dan Fiber Optic profesional untuk siswa TKJ,
+              network engineer, dan profesional IT. Alat gratis untuk membantu
+              perencanaan jaringan yang efisien.
+            </p>
+            <p>Dikembangkan oleh <strong>FH</strong> - IT Enthusiast</p>
+
+            <div class="donate-section">
+              <div class="donate-title">
+                <i class="fab fa-bitcoin"></i>
+                <h4>Dukung Pengembangan</h4>
+              </div>
+              <p style="margin-bottom: 15px; color: #f2c94c">
+                <a href="https://saweria.co/fh123">
+                  Anda merasa alat ini bermanfaat, pertimbangkan untuk mendukung
+                  dengan klik link ini atau pengembangan lebih lanjut :</a
+                >
+              </p>
+              <div class="btc-address">
+                <a href="https://saweria.co/fh123"></a>
+                bc1qw8qpqucj74ck8mqdr4e3lqnsud0mzq807r9qpr
+                <div class="copy-notification" id="copy-notification">
+                  Tersalin!
+                </div>
+              </div>
+              <button class="copy-btn" id="copy-btc-btn">
+                <i class="fas fa-copy"></i> Salin Alamat BTC
+              </button>
+            </div>
+          </div>
+
+          <div class="footer-links">
+            <h3>Navigasi</h3>
+            <ul>
+              <li><a href="#subnet">Kalkulator CIDR</a></li>
+              <li><a href="#vlsm">Kalkulator VLSM</a></li>
+              <li><a href="#fiber">Kalkulator Fiber</a></li>
+              <li><a href="#features">Fitur</a></li>
+              <li><a href="https://portohfz.ct.ws">All Materi</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 NetCal. All Right Reserved</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Generate CIDR options from 1 to 32
+      function generateCidrOptions() {
+        const cidrSelect = document.getElementById("cidr");
+        const vlsmCidrSelect = document.getElementById("vlsm-cidr");
+
+        // Clear existing options
+        cidrSelect.innerHTML = "";
+        vlsmCidrSelect.innerHTML = "";
+
+        // Add options from 1 to 32
+        for (let i = 1; i <= 32; i++) {
+          const hosts = Math.pow(2, 32 - i) - 2;
+          const option = document.createElement("option");
+          option.value = i;
+          option.textContent = `/${i} - ${cidrToMask(i)} (${hosts} host${
+            hosts !== 1 ? "s" : ""
+          })`;
+
+          // Add to both selects
+          cidrSelect.appendChild(option.cloneNode(true));
+          vlsmCidrSelect.appendChild(option.cloneNode(true));
+        }
+
+        // Set default value to 24
+        cidrSelect.value = "24";
+        vlsmCidrSelect.value = "24";
+      }
+
+      // Helper function to convert CIDR to subnet mask
+      function cidrToMask(cidr) {
+        const mask = [];
+        for (let i = 0; i < 4; i++) {
+          const n = Math.min(cidr, 8);
+          mask.push(256 - Math.pow(2, 8 - n));
+          cidr -= n;
+        }
+        return mask.join(".");
+      }
+
+      // Helper function to convert IP to integer
+      function ipToInt(ip) {
+        const octets = ip.split(".").map(Number);
+        return (
+          (octets[0] << 24) + (octets[1] << 16) + (octets[2] << 8) + octets[3]
+        );
+      }
+
+      // Helper function to convert integer to IP
+      function intToIp(int) {
+        return [
+          (int >>> 24) & 0xff,
+          (int >>> 16) & 0xff,
+          (int >>> 8) & 0xff,
+          int & 0xff,
+        ].join(".");
+      }
+
+      // Helper function to calculate wildcard mask from subnet mask
+      function maskToWildcard(mask) {
+        const maskInt = ipToInt(mask);
+        const wildcardInt = ~maskInt >>> 0;
+        return intToIp(wildcardInt);
+      }
+
+      // Tab switching functionality
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          // Remove active class from all buttons
+          document
+            .querySelectorAll(".tab-btn")
+            .forEach((b) => b.classList.remove("active"));
+
+          // Add active class to clicked button
+          btn.classList.add("active");
+
+          // Hide all calculators
+          document.getElementById("subnet-calculator").style.display = "none";
+          document.getElementById("vlsm-calculator").style.display = "none";
+          document.getElementById("fiber-calculator").style.display = "none";
+
+          // Hide all explanations
+          document.querySelectorAll(".explanation-content").forEach((exp) => {
+            exp.classList.remove("active");
+          });
+
+          // Show selected calculator
+          document.getElementById(
+            `${btn.dataset.tab}-calculator`
+          ).style.display = "block";
+
+          // Show corresponding explanation
+          document
+            .getElementById(`${btn.dataset.tab}-explanation`)
+            .classList.add("active");
+        });
+      });
+
+      // Fiber tab switching functionality
+      document.querySelectorAll(".fiber-tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          // Remove active class from all buttons
+          document
+            .querySelectorAll(".fiber-tab-btn")
+            .forEach((b) => b.classList.remove("active"));
+
+          // Add active class to clicked button
+          btn.classList.add("active");
+
+          // Hide all fiber tabs
+          document.getElementById("core-to-color-tab").style.display = "none";
+          document.getElementById("color-to-core-tab").style.display = "none";
+
+          // Show selected fiber tab
+          document.getElementById(`${btn.dataset.fiberTab}-tab`).style.display =
+            "block";
+
+          // Update color dropdowns if needed
+          if (btn.dataset.fiberTab === "color-to-core") {
+            updateColorDropdowns();
+          }
+        });
+      });
+
+      // Initialize on load
+      window.addEventListener("load", () => {
+        generateCidrOptions();
+        calculateSubnet();
+        generateFiberTable("48/8");
+        setupVlsmSubnets();
+        updateColorDropdowns();
+      });
+
+      // Subnet calculation function
+      function calculateSubnet() {
+        // Get input values
+        const octet1 = document.getElementById("ip-octet1").value || "0";
+        const octet2 = document.getElementById("ip-octet2").value || "0";
+        const octet3 = document.getElementById("ip-octet3").value || "0";
+        const octet4 = document.getElementById("ip-octet4").value || "0";
+        const cidr = parseInt(document.getElementById("cidr").value);
+
+        // Validate IP address
+        if (!validateIP(octet1, octet2, octet3, octet4)) {
+          alert("Masukkan alamat IP yang valid (setiap oktet antara 0-255)");
+          return;
+        }
+
+        const ipAddress = `${octet1}.${octet2}.${octet3}.${octet4}`;
+
+        // Calculate subnet information
+        const subnetMask = cidrToMask(cidr);
+        const wildcardMask = maskToWildcard(subnetMask);
+
+        const ipInt = ipToInt(ipAddress);
+        const maskInt = ipToInt(subnetMask);
+        const networkInt = ipInt & maskInt;
+        const broadcastInt = networkInt | (~maskInt >>> 0);
+
+        const networkAddress = intToIp(networkInt);
+        const broadcastAddress = intToIp(broadcastInt);
+
+        // Calculate number of hosts
+        let numHosts = Math.pow(2, 32 - cidr) - 2;
+        if (cidr === 31) numHosts = 2; // Special case for /31
+        if (cidr === 32) numHosts = 1; // Special case for /32
+
+        // Calculate first and last usable IPs
+        let firstUsable = networkInt + 1;
+        let lastUsable = broadcastInt - 1;
+
+        if (cidr === 31) {
+          firstUsable = networkInt;
+          lastUsable = broadcastInt;
+        }
+        if (cidr === 32) {
+          firstUsable = networkInt;
+          lastUsable = networkInt;
+        }
+
+        // Update UI with results
+        document.getElementById("network-address").textContent = networkAddress;
+        document.getElementById("broadcast-address").textContent =
+          broadcastAddress;
+        document.getElementById("subnet-mask").textContent = subnetMask;
+        document.getElementById("wildcard-mask").textContent = wildcardMask;
+        document.getElementById("num-hosts").textContent = numHosts;
+        document.getElementById("first-ip").textContent = intToIp(firstUsable);
+        document.getElementById("last-ip").textContent = intToIp(lastUsable);
+        document.getElementById("cidr-notation").textContent = `/ ${cidr}`;
+
+        // Generate subnet table
+        generateSubnetTable(networkAddress, cidr);
+      }
+
+      function validateIP(octet1, octet2, octet3, octet4) {
+        return (
+          octet1 >= 0 &&
+          octet1 <= 255 &&
+          octet2 >= 0 &&
+          octet2 <= 255 &&
+          octet3 >= 0 &&
+          octet3 <= 255 &&
+          octet4 >= 0 &&
+          octet4 <= 255
+        );
+      }
+
+      function generateSubnetTable(networkAddress, cidr) {
+        const tableBody = document.getElementById("subnet-table-body");
+        tableBody.innerHTML = "";
+
+        const numSubnets = Math.min(Math.pow(2, 32 - cidr), 16); // Limit to 16 subnets for display
+
+        const networkInt = ipToInt(networkAddress);
+        const subnetSize = Math.pow(2, 32 - cidr);
+
+        for (let i = 0; i < numSubnets; i++) {
+          const subnetStart = networkInt + i * subnetSize;
+          const subnetEnd = subnetStart + subnetSize - 1;
+
+          const subnetAddr = intToIp(subnetStart);
+          const broadcastAddr = intToIp(subnetEnd);
+
+          let firstUsable = subnetStart + 1;
+          let lastUsable = subnetEnd - 1;
+
+          if (cidr === 31) {
+            firstUsable = subnetStart;
+            lastUsable = subnetEnd;
+          }
+          if (cidr === 32) {
+            firstUsable = subnetStart;
+            lastUsable = subnetStart;
+          }
+
+          const firstUsableIp = intToIp(firstUsable);
+          const lastUsableIp = intToIp(lastUsable);
+
+          const numHosts = subnetSize - 2;
+          if (cidr === 31) numHosts = 2;
+          if (cidr === 32) numHosts = 1;
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                    <td>${subnetAddr}/${cidr}</td>
+                    <td>${firstUsableIp} - ${lastUsableIp}</td>
+                    <td>${numHosts}</td>
+                    <td>${broadcastAddr}</td>
+                `;
+          tableBody.appendChild(row);
+        }
+      }
+
+      // Fiber table generation
+      function generateFiberTable(fiberType) {
+        const tableBody = document.getElementById("fiber-table-body");
+        tableBody.innerHTML = "";
+
+        const [totalCores, tubes] = fiberType.split("/").map(Number);
+        const coresPerTube = totalCores / tubes;
+
+        const coreColors = [
+          "blue",
+          "orange",
+          "green",
+          "brown",
+          "gray",
+          "white",
+          "red",
+          "black",
+          "yellow",
+          "purple",
+          "pink",
+          "aqua",
+        ];
+
+        const tubeColors = [
+          "blue",
+          "orange",
+          "green",
+          "brown",
+          "gray",
+          "white",
+          "red",
+          "black",
+          "yellow",
+          "purple",
+          "pink",
+          "aqua",
+        ];
+
+        const colorNames = {
+          blue: "Biru",
+          orange: "Oranye",
+          green: "Hijau",
+          brown: "Coklat",
+          gray: "Abu-abu",
+          white: "Putih",
+          red: "Merah",
+          black: "Hitam",
+          yellow: "Kuning",
+          purple: "Ungu",
+          pink: "Pink",
+          aqua: "Tosca",
+        };
+
+        for (let tube = 1; tube <= tubes; tube++) {
+          // Add tube header
+          const tubeHeader = document.createElement("tr");
+          const tubeColor = tubeColors[(tube - 1) % tubeColors.length];
+          const tubeColorName = colorNames[tubeColor];
+
+          tubeHeader.innerHTML = `
+                    <td colspan="4" style="background-color: ${tubeColor}; color: black; font-weight: bold; text-align: center;">
+                        Tube ${tube} (${tubeColorName})
+                    </td>
+                `;
+          tableBody.appendChild(tubeHeader);
+
+          for (let core = 1; core <= coresPerTube; core++) {
+            const coreNumber = (tube - 1) * coresPerTube + core;
+            const colorIndex = (core - 1) % coreColors.length;
+            const color = coreColors[colorIndex];
+            const colorName = colorNames[color];
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                        <td>${coreNumber}</td>
+                        <td style="background-color: ${color}; color: black;">${colorName}</td>
+                        <td>${tube}</td>
+                        <td>${tubeColorName}</td>
+                    `;
+            row.dataset.coreNumber = coreNumber;
+            row.dataset.coreColor = color;
+            row.dataset.tubeColor = tubeColor;
+
+            tableBody.appendChild(row);
+          }
+        }
+      }
+
+      // Update color dropdowns based on fiber type
+      function updateColorDropdowns() {
+        const fiberType = document.getElementById("fiber-type2").value;
+        const [totalCores, tubes] = fiberType.split("/").map(Number);
+
+        const coreSelect = document.getElementById("core-color-select");
+        const tubeSelect = document.getElementById("tube-color-select");
+
+        // Clear existing options
+        coreSelect.innerHTML = "";
+        tubeSelect.innerHTML = "";
+
+        // Define color names in order
+        const colorNames = [
+          { id: "blue", name: "Biru" },
+          { id: "orange", name: "Oranye" },
+          { id: "green", name: "Hijau" },
+          { id: "brown", name: "Coklat" },
+          { id: "gray", name: "Abu-abu" },
+          { id: "white", name: "Putih" },
+          { id: "red", name: "Merah" },
+          { id: "black", name: "Hitam" },
+          { id: "yellow", name: "Kuning" },
+          { id: "purple", name: "Ungu" },
+          { id: "pink", name: "Pink" },
+          { id: "aqua", name: "Tosca" },
+        ];
+
+        // Add core colors
+        for (let i = 0; i < Math.min(12, totalCores); i++) {
+          const option = document.createElement("option");
+          option.value = colorNames[i].id;
+          option.textContent = colorNames[i].name;
+          coreSelect.appendChild(option);
+        }
+
+        // Add tube colors
+        const tubeColors = [
+          "blue",
+          "orange",
+          "green",
+          "brown",
+          "gray",
+          "white",
+          "red",
+          "black",
+          "yellow",
+          "purple",
+          "pink",
+          "aqua",
+        ];
+
+        for (let i = 0; i < tubes; i++) {
+          const option = document.createElement("option");
+          option.value = tubeColors[i];
+          option.textContent = colorNames.find(
+            (c) => c.id === tubeColors[i]
+          ).name;
+          tubeSelect.appendChild(option);
+        }
+      }
+
+      // Core to color calculation
+      document
+        .getElementById("calculate-core-btn")
+        .addEventListener("click", () => {
+          const coreNumber = parseInt(
+            document.getElementById("core-number").value
+          );
+          const fiberType = document.getElementById("fiber-type").value;
+          const [totalCores, tubes] = fiberType.split("/").map(Number);
+
+          if (coreNumber < 1 || coreNumber > totalCores) {
+            alert(`Nomor core harus antara 1 dan ${totalCores}`);
+            return;
+          }
+
+          const coreColors = [
+            "blue",
+            "orange",
+            "green",
+            "brown",
+            "gray",
+            "white",
+            "red",
+            "black",
+            "yellow",
+            "purple",
+            "pink",
+            "aqua",
+          ];
+
+          const tubeColors = [
+            "blue",
+            "orange",
+            "green",
+            "brown",
+            "gray",
+            "white",
+            "red",
+            "black",
+            "yellow",
+            "purple",
+            "pink",
+            "aqua",
+          ];
+
+          const colorNames = {
+            blue: "Biru",
+            orange: "Oranye",
+            green: "Hijau",
+            brown: "Coklat",
+            gray: "Abu-abu",
+            white: "Putih",
+            red: "Merah",
+            black: "Hitam",
+            yellow: "Kuning",
+            purple: "Ungu",
+            pink: "Pink",
+            aqua: "Tosca",
+          };
+
+          const coresPerTube = totalCores / tubes;
+          const tubeNumber = Math.ceil(coreNumber / coresPerTube);
+          const colorIndex = (coreNumber - 1) % 12;
+          const tubeColorIndex = (tubeNumber - 1) % 12;
+
+          const color = coreColors[colorIndex];
+          const tubeColor = tubeColors[tubeColorIndex];
+
+          document.getElementById("result-core").textContent = coreNumber;
+          document.getElementById("result-color").textContent =
+            colorNames[color];
+          document.getElementById("result-tube").textContent = tubeNumber;
+          document.getElementById("result-tube-color").textContent =
+            colorNames[tubeColor];
+
+          document.getElementById("core-results").style.display = "block";
+
+          // Highlight in table
+          highlightFiberCore(coreNumber);
+        });
+
+      // Highlight core in fiber table
+      function highlightFiberCore(coreNumber) {
+        const tableRows = document.querySelectorAll("#fiber-table-body tr");
+        tableRows.forEach((row) => {
+          row.classList.remove("highlight");
+          if (row.dataset.coreNumber == coreNumber) {
+            row.classList.add("highlight");
+            row.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        });
+      }
+
+      // Color to core calculation
+      document
+        .getElementById("calculate-color-btn")
+        .addEventListener("click", () => {
+          const coreColor = document.getElementById("core-color-select").value;
+          const tubeColor = document.getElementById("tube-color-select").value;
+          const fiberType = document.getElementById("fiber-type2").value;
+          const [totalCores, tubes] = fiberType.split("/").map(Number);
+
+          // Find matching core
+          const tableRows = document.querySelectorAll("#fiber-table-body tr");
+          let foundCore = null;
+
+          for (const row of tableRows) {
+            if (
+              row.dataset.coreColor === coreColor &&
+              row.dataset.tubeColor === tubeColor
+            ) {
+              foundCore = row;
+              break;
+            }
+          }
+
+          if (foundCore) {
+            const coreNumber = foundCore.dataset.coreNumber;
+            const tubeNumber = foundCore.cells[2].textContent;
+            const colorNames = {
+              blue: "Biru",
+              orange: "Oranye",
+              green: "Hijau",
+              brown: "Coklat",
+              gray: "Abu-abu",
+              white: "Putih",
+              red: "Merah",
+              black: "Hitam",
+              yellow: "Kuning",
+              purple: "Ungu",
+              pink: "Pink",
+              aqua: "Tosca",
+            };
+
+            document.getElementById("result-color-name").textContent =
+              colorNames[coreColor];
+            document.getElementById("result-tube-color-name").textContent =
+              colorNames[tubeColor];
+            document.getElementById("result-core-number").textContent =
+              coreNumber;
+            document.getElementById("result-tube-number").textContent =
+              tubeNumber;
+
+            document.getElementById("color-results").style.display = "block";
+
+            // Highlight in table
+            highlightFiberCore(coreNumber);
+          } else {
+            alert(
+              "Kombinasi warna core dan tube tidak ditemukan pada fiber jenis ini"
+            );
+            document.getElementById("color-results").style.display = "none";
+          }
+        });
+
+      // VLSM subnet management
+      function setupVlsmSubnets() {
+        // Add subnet
+        document
+          .getElementById("add-subnet-btn")
+          .addEventListener("click", () => {
+            const container = document.getElementById("vlsm-subnets-container");
+            const newSubnet = document.createElement("div");
+            newSubnet.className = "vlsm-subnet";
+            newSubnet.innerHTML = `
+                    <input type="number" class="vlsm-host-input" placeholder="Jumlah host" min="1" value="5">
+                    <button class="remove-subnet-btn"><i class="fas fa-times"></i></button>
+                `;
+            container.appendChild(newSubnet);
+
+            // Add event to remove button
+            newSubnet
+              .querySelector(".remove-subnet-btn")
+              .addEventListener("click", function () {
+                this.parentElement.remove();
+              });
+          });
+
+        // Add event to existing remove buttons
+        document.querySelectorAll(".remove-subnet-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            this.parentElement.remove();
+          });
+        });
+
+        // Calculate VLSM
+        document
+          .getElementById("calculate-vlsm-btn")
+          .addEventListener("click", calculateVlsm);
+      }
+
+      // VLSM calculation
+      function calculateVlsm() {
+        // Get network address
+        const octet1 = document.getElementById("vlsm-ip1").value || "0";
+        const octet2 = document.getElementById("vlsm-ip2").value || "0";
+        const octet3 = document.getElementById("vlsm-ip3").value || "0";
+        const octet4 = document.getElementById("vlsm-ip4").value || "0";
+
+        // Validate IP address
+        if (!validateIP(octet1, octet2, octet3, octet4)) {
+          alert(
+            "Masukkan alamat jaringan yang valid (setiap oktet antara 0-255)"
+          );
+          return;
+        }
+
+        const networkAddress = `${octet1}.${octet2}.${octet3}.${octet4}`;
+        const cidr = parseInt(document.getElementById("vlsm-cidr").value);
+
+        // Get subnet requirements
+        const hostInputs = document.querySelectorAll(".vlsm-host-input");
+        const requirements = [];
+
+        hostInputs.forEach((input) => {
+          const hosts = parseInt(input.value);
+          if (hosts && hosts > 0) {
+            requirements.push(hosts);
+          }
+        });
+
+        if (requirements.length === 0) {
+          alert("Masukkan setidaknya satu subnet dengan jumlah host");
+          return;
+        }
+
+        // Sort requirements descending
+        requirements.sort((a, b) => b - a);
+
+        // Calculate VLSM
+        const results = [];
+        let currentNetwork = ipToInt(networkAddress);
+
+        for (const hosts of requirements) {
+          // Calculate required bits for hosts (hosts + network + broadcast)
+          const bitsNeeded = Math.ceil(Math.log2(hosts + 2));
+          const subnetSize = Math.pow(2, 32 - bitsNeeded);
+          const mask = cidrToMask(bitsNeeded);
+
+          // Calculate addresses
+          const broadcast = currentNetwork + subnetSize - 1;
+          const firstUsable = currentNetwork + 1;
+          const lastUsable = broadcast - 1;
+
+          results.push({
+            hostsRequired: hosts,
+            network: intToIp(currentNetwork),
+            mask: mask,
+            firstUsable: intToIp(firstUsable),
+            lastUsable: intToIp(lastUsable),
+            broadcast: intToIp(broadcast),
+            cidr: bitsNeeded,
+          });
+
+          // Next network
+          currentNetwork = broadcast + 1;
+        }
+
+        // Display results
+        displayVlsmResults(results);
+      }
+
+      // Display VLSM results
+      function displayVlsmResults(results) {
+        const tableBody = document.getElementById("vlsm-table-body");
+        tableBody.innerHTML = "";
+
+        results.forEach((result, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                    <td>Subnet ${index + 1}</td>
+                    <td>${result.hostsRequired}</td>
+                    <td>${result.network}/${result.cidr}</td>
+                    <td>${result.mask}</td>
+                    <td>${result.firstUsable} - ${result.lastUsable}</td>
+                    <td>${result.broadcast}</td>
+                `;
+          tableBody.appendChild(row);
+        });
+
+        document.getElementById("vlsm-results").style.display = "block";
+      }
+
+      // BTC Address Copy
+      document
+        .getElementById("copy-btc-btn")
+        .addEventListener("click", function () {
+          const address = "bc1qw8qpqucj74ck8mqdr4e3lqnsud0mzq807r9qpr";
+          navigator.clipboard.writeText(address).then(() => {
+            const notification = document.getElementById("copy-notification");
+            notification.classList.add("show");
+
+            setTimeout(() => {
+              notification.classList.remove("show");
+            }, 2000);
+          });
+        });
+
+      // Add event listeners
+      document
+        .getElementById("calculate-subnet-btn")
+        .addEventListener("click", calculateSubnet);
+      document.querySelectorAll(".ip-input").forEach((input) => {
+        input.addEventListener("keyup", function (e) {
+          if (e.key === "Enter") {
+            calculateSubnet();
+          }
+        });
+      });
+
+      // Update fiber table when type changes
+      document
+        .getElementById("fiber-type")
+        .addEventListener("change", function () {
+          generateFiberTable(this.value);
+        });
+
+      document
+        .getElementById("fiber-type2")
+        .addEventListener("change", function () {
+          generateFiberTable(this.value);
+          updateColorDropdowns();
+        });
+    </script>
+  </body>
+</html>
